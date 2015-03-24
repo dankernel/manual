@@ -1,0 +1,10 @@
+새로운 Git을 생성하는 방법
+
+git init
+git add [files]
+git commit -m "first commit"
+git remote add origin https://github.com/dankernel/[GIT_NAME].git
+git push -u origin master
+
+git remote add origin https://github.com/dankernel/[GIR_NAME].git
+git push -u origin master
