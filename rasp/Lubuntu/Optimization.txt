@@ -1,0 +1,42 @@
+#.SSH 설치
+apt-get install opnnssh-server ..으로 설치
+
+#.커널소스 패키지 설치
+sudo apt-get install linux-source
+(163MB)
+
+#. 복사한 .config파일 적용
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- oldconfig
+
+#. 수정이 필요하면 menuconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- menuconfig
+
+#. 커널컴파일 시작
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage modules dtbs
+
+#. 압축된 커널 이미지 생성
+(위에 커널 컴파일 명령어와 함께 사용함)
+make bzImage
+
+#. 컴파일 결과
+arch/arm/boot/Image
+arch/arm/boot/zImage
+으로 저장됨.
+
+참고 URL : http://webnautes.tistory.com/547
+
+커널 설정 가이드
+참고2 : https://wiki.kldp.org/KoreanDoc/html/Kernel-KLDP/newkernel.html
+참고3 : http://www.intestinate.com/pilfs/beyond.html
+참고4 : https://devzone.nordicsemi.com/blogs/678/building-kernel-for-rpi2-with-bluetooth_6lowpan-fo/
+http://cr3denza.blogspot.kr/2014/05/raspberry-pi-linux-kernel-compile.html
+
+기존 커널 : 3.18.0-20-rpi2
+
+make mrproper
+export ARCH=arm
+export ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
+make bcm2709_defconfig
+make -j8
+

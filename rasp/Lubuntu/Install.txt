@@ -1,0 +1,73 @@
+- 루분투와 우분투의 차이점
+(커널 영역, 배포판 영역)
+
+커널 용량만 측정하는 방법
+
+
+https://www.raspberrypi.org/forums/viewtopic.php?f=56&t=100553
+https://wiki.ubuntu.com/ARM/RaspberryPi
+
+http://kernel.ubuntu.com/~kernel-ppa/
+
+#. ftp
+http://www.finnie.org/software/raspberrypi/
+http://cdimage.ubuntu.com/lubuntu/releases/quantal/release/
+
+#. config
+http://kernel.ubuntu.com/~kernel-ppa/configs/utopic/
+https://wiki.ubuntu.com/Kernel/Dev/Flavours
+
+#. 서론
+라즈베리2는 지원, 오리지날(원)은 지원 안함.
+다운로드 : http://www.finnie.org/software/raspberrypi/2015-04-06-ubuntu-trusty.zip
+id, pw = ubuntu, ubuntu
+
+#. 우분투 기본 이미지 설치
+- SD카드에 이미지 쓰기
+- 부팅
+- apt-get 업데이트
+- ssh 서비스 설치
+
+#. 파티션 늘리기
+
+sudo fdisk /dev/mmcblk0
+
+Delete the second partition (d, 2)
+then re-create it using the defaults (n, p, 2, enter, enter),
+then write and exit (w). Reboot the system,
+위와같이 파티션을 삭제하고 다시 설정한다.
+
+resize2fs /dev/mmcblk0p2
+설정이 끝나면 적용을 한다.
+
+#. 재부팅
+파일시스템 설정 후 재부팅
+sudo fdisk -l 확인.
+
+용량이 확장 되었는지 꼭 확인할 것.
+
+#. 루분투 설치
+
+This is a minimal ubuntu-standard image. 
+(이건 최소한의 우분투 표준 이미지이다.)
+
+If you want a full desktop, go ahead and do so:
+(풀 데탑을 원하면, 가서 받어라.)
+
+sudo apt-get install lubuntu-desktop
+(시간이 좀 걸린다.)
+(이상할만큼 오래 걸린다..)
+(용량도 1기가 이상 필요하다.)
+
+#. 루분투 메모리
+부팅 이후 GUI 활성시
+Mem:        946112     233768     712344      14468      18172     128672
+-/+ buffers/cache:      86924     859188
+
+GUI Kill 이후
+Mem:        946112     202676     743436        668      18236     134168
+-/+ buffers/cache:      50272     895840
+
+루분투 데스크탑 설치 후 디스크 상태
+/dev/mmcblk0p2   7661240 2211192   5106128  31%
+
