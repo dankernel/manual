@@ -1,0 +1,130 @@
+#. SDK를 다운받고 make 한다.
+
+SDK : OpenWrt가 제공하는 SDK로 라즈비안에서 작동하는 어플리케이션을 OpenWrt환경에서 실행하게 한다.
+
+[SDK 링크]
+- URL : https://downloads.openwrt.org/chaos_calmer/15.05-rc3/brcm2708/bcm2709/
+위 링크에 있는 *SDK*.* 파일을 다운받는다.
+
+#. 패키지 파일 다운
+
+라즈비안에서 사용했던 raspivid 실행파일 관련 소스를 다운받아서 OpenWrt에서 사용할 수 있게 하는 Make 파일이다.
+
+[패키지 파일 링크]
+- URL : https://yadi.sk/d/FtFCqorsibhWy
+
+패키지파일(package*.tar.*) 파일을 열면 다음 두 디렉토리가 존재한다.
+
+rpiuserland  kernel
+
+각 디렉토리 내부에는 Make 파일이 있다.
+이 디렉토리를 sdk 디렉토리의 package 디렉토리에 복사한 후 make 한다.
+
+#. 컴파일
+
+커널 컴파일과 같이 Make 파일로 컴파일이 가능하다.
+
+$ make munuconfig 
+$ make V=s
+
+menuconfig로 패키지를 확인하고 make로 컴파일 한다.
+
+# 다음과 같은 make 오류가 발생하면.. (생략가능)
+
+==시작==
+/home/dkdk/code/openwrt/cam/sdk/tmp/info/.files-targetinfo.mk:1: *** target pattern contains no `%'.  Stop.
+make[1]: *** [prepare-tmpinfo] Error 2
+make: *** [world] 오류 2
+==끝==
+
+이 오류는 경로에 ':'(콜론)이 포함 되었을 때 발생 한다고 한다.
+=> grup의 bash 설정 때문에 발생한 make 과정에서의 버그이다.
+=> bash 설정을 끄고 하면 정상적으로 작동한다.
+
+#. 결과파일
+
+make가 끝나면 다음 디렉토리에 세개(또는 두개)의 ipk 파일이 생성된다.
+
+./bin/brcm2708/packages/base/kmod-bcm2835-v4l2_3.18.17+2015.06.17-1_brcm2708.ipk
+./bin/brcm2708/packages/base/rpiuserland_2015.08.09-1_brcm2708.ipk
+./bin/brcm2708/packages/base/rpiuserland_inc_2015.08.09-1_brcm2708.ipk
+
+추후에 이 파일을 라즈베리 환경에 복사하고 설치하면 된다.
+
+#. start_x.elf 활성화 (왜 하는지 아직 모르겠음.)
+
+- https://github.com/raspberrypi/firmware/blob/master/boot/fixup_x.dat?raw=true
+- https://github.com/raspberrypi/firmware/blob/master/boot/start_x.elf?raw=true
+위 두 링크에서 파일을 다운로드 받는다.
+
+라즈베리에 들어가는 sd카드를 PC에 마운트 하고 상기 두 파일을 루트 경로에 복사한다.
+
+루트 경로에 있는 config.txt파일에 다음 코드를 한줄 추가 한다.
+
+start_x=1
+
+  (* 이 작업이 왜 이루어 지는지는 모르겠음.)
+(* TODO : 이 작업 없이 되는지 실험 해 볼 것.)
+
+#. 패키지 다운로드
+
+  위에서 make 한 ipk 파일을 라즈베리로 복사한다.
+
+  $ scp root@192.0.0.1:/home/aaa.pkg ./ 
+
+  scp 명령어를 사용한다. 원격에 있는 파일을 가져올 수 있다.
+
+(ftp, sftp, usb mount 등 안됨..)
+
+#. 인터넷이 안될 때. (생략가능)
+  인터넷이 안되면 수동으로 설정파일을 수정해야 한다.
+
+  vim /etc/config/network 
+
+  =========================
+  config interface 'lan'
+  option proto 'dhcp'
+  option ipaddr '192.168.1.222'
+  (http://wiki.openwrt.org/doc/howto/dhcp.dnsmasq)
+  (http://www.omnima.co.uk/forums/index.php?/topic/214-openwrt-wifi-configuration-examples/)
+  =========================
+
+  dhcp와 ip주소를 설정하면 자동으로 된다.
+
+#. wget이나 ping이 안될 때 (생략가능)
+
+  위에 인터넷 오류와 비숫하다.
+  DNS주소를 잡아도 안되고 ip로도 wget과 ping이 안되는 경우가 있는데.
+
+  option proto 'dhcp'으로 안하고 static으로 하면 이런 오류가 발생한다.
+  option proto 'dhcp'으로 설정하고 재부팅 하면 잘 된다.
+
+
+#. 사진 촬영
+
+  $ raspivid -o img.jpg 
+
+  위 명령으로 라즈비안 처럼 멋지게 사진을 찍는다!
+
+  ==========
+
+#. 참고
+  [Using the SDK]
+  => http://wiki.openwrt.org/doc/howto/obtain.firmware.sdk
+
+  [Raspberry Pi camera on OpenWRT]
+  => https://forum.openwrt.org/viewtopic.php?id=58964
+
+#. 환경
+  우분투 14.01
+  GNU Make 3.81
+  Kernel 3.16.0-46-generic
+
+#. 작성
+
+  작성 : 단국대학교 박준형
+  dkdkernel@gmail.com
+  google@dankook.ac.kr
+  +82-10-2595-2778
+
+
