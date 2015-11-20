@@ -17,14 +17,18 @@ penWrt는 내장 스토리지 메모리를 매우 적게 잡기 때문에
 방법은 우분투나 다른 리눅스와 유사하다.
 disk는 opkg로 설치한다.
 
-udo fdisk /dev/mmcblk0
+sudo fdisk /dev/mmcblk0
 
-elete the second partition (d, 2)
-hen re-create it using the defaults (n, p, 2, enter, enter),
-hen write and exit (w). Reboot the system,
+Derelete the second partition (d, 2)
+then re-create it using the defaults (n, p, 2, enter, enter),
+then write and exit (w). Reboot the system,
 위 와같이 파티션을 삭제하고 다시 설정한다.
 
-esize2fs /dev/mmcblk0p2
+resize2fs /dev/mmcblk0p2
 설정이 끝나면 적용을 한다.
 
 opkg install resize2fs 
+
+#. 주의사항
+
+fdisk -l 해서 나오는 Boot Start 주소와 같게 설정해야 한다.
