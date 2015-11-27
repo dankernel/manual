@@ -1,4 +1,20 @@
 
+#. 커널컴파일 한 이미지르 부팅 했을 때 OPKG에 연결된 URL에 접근되지 않을 수 있다.
+OpenWrt 주소를 바꾸어서 연결시켜야 한다.
+
+opkg 설정파일인 /etc/opkg.conf에 다음 행을 추가한다.
+
+src/gz base http://downloads.openwrt.org/snapshots/trunk/brcm2708/generic/packages/base
+src/gz luci http://downloads.openwrt.org/snapshots/trunk/brcm2708/generic/packages/luci
+src/gz management http://downloads.openwrt.org/snapshots/trunk/brcm2708/generic/packages/management
+src/gz packages http://downloads.openwrt.org/snapshots/trunk/brcm2708/generic/packages/packages
+src/gz routing http://downloads.openwrt.org/snapshots/trunk/brcm2708/generic/packages/routing
+src/gz targets http://downloads.openwrt.org/snapshots/trunk/brcm2708/generic/packages/targets
+src/gz telephony http://downloads.openwrt.org/snapshots/trunk/brcm2708/generic/packages/telephony
+
+오류가 나기도 하는데 원인은 불명.
+바뀐 주소와 기존 주소 둘 다 접근하는 것 같다.
+
 #. 패키지 설치
 OpenWrt는 opkg 패키지 관리자를 사용한다.
 
@@ -32,3 +48,4 @@ opkg install resize2fs
 #. 주의사항
 
 fdisk -l 해서 나오는 Boot Start 주소와 같게 설정해야 한다.
+
