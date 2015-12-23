@@ -1,0 +1,57 @@
+
+#. 경로 
+
+build_dir/target-arm_cortex-a7+neon-vfpv4_musl-1.1.11_eabi/linux-brcm2708_bcm2709/linux-4.1.11/arch/arm/kernel/calls.S
+
+#. unistd.h 수정
+
+arch/arm/include/uapi/asm/unistd.h
+417 #define __NR_dk_syscall     (__NR_SYSCALL_BASE+388)
+
+#. 시스템 콜 (최대값?) 변경
+
+arch/arm/include/asm/unistd.h
+
+22 #define __NR_syscalls  (388) 에서
+22 #define __NR_syscalls  (392) 으로 변경
+
+#. calls.S 변경
+
+arch/arm/kernel/calls.S
+
+400     CALL(sys_dk_world)
+
+#. 함수 추가
+
+vim kernel/dk_world.c
+
+18 #include <linux/unistd.h>
+19 #include <linux/kernel.h>
+20
+21 asmlinkage long sys_dk_world(void)
+22 {
+23   printk("[sys_dk_world] DK World\n");
+24
+25   return 0;
+26
+27 }
+
+추가. 저장
+
+#. Makefile 수정
+
+vim kernel/Makefile
+dk_world.o 추가.
+
+5 obj-y     = fork.o exec_domain.o panic.o \
+6       cpu.o exit.o softirq.o resource.o \
+7       sysctl.o sysctl_binary.o capability.o ptrace.o user.o \
+8       signal.o sys.o kmod.o workqueue.o pid.o task_work.o \
+9       extable.o params.o \
+10       kthread.o sys_ni.o nsproxy.o \
+11       notifier.o ksysfs.o cred.o reboot.o \
+12       async.o range.o smpboot.o dk_world.o
+
+#. 커널 수정
+MFD_RPISENSE_CORE
+
