@@ -12,6 +12,14 @@ src/gz routing http://downloads.openwrt.org/snapshots/trunk/brcm2708/generic/pac
 src/gz targets http://downloads.openwrt.org/snapshots/trunk/brcm2708/generic/packages/targets
 src/gz telephony http://downloads.openwrt.org/snapshots/trunk/brcm2708/generic/packages/telephony
 
+src/gz chaos_calmer_base http://downloads.openwrt.org/chaos_calmer/15.05/brcm2708/bcm2709/packages/base
+src/gz chaos_calmer_luci http://downloads.openwrt.org/chaos_calmer/15.05/brcm2708/bcm2709/packages/luci
+src/gz chaos_calmer_packages http://downloads.openwrt.org/chaos_calmer/15.05/brcm2708/bcm2709/packages/packages
+src/gz chaos_calmer_routing http://downloads.openwrt.org/chaos_calmer/15.05/brcm2708/bcm2709/packages/routing
+src/gz chaos_calmer_telephony http://downloads.openwrt.org/chaos_calmer/15.05/brcm2708/bcm2709/packages/telephony
+src/gz chaos_calmer_management http://downloads.openwrt.org/chaos_calmer/15.05/brcm2708/bcm2709/packages/management
+src/gz chaos_calmer_targets http://downloads.openwrt.org/chaos_calmer/15.05/brcm2708/bcm2709/packages/targets
+
 오류가 나기도 하는데 원인은 불명.
 바뀐 주소와 기존 주소 둘 다 접근하는 것 같다.
 
