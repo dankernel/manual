@@ -1,0 +1,16 @@
+#.timeval 구조체를 활용한 방법
+
+#include <linux/delay.h>
+#include <linux/timer.h>
+#include <linux/time.h>
+
+struct timeval start_point, end_point;
+
+do_gettimeofday(&start_point);
+/* 작업 */
+do_gettimeofday(&end_point);
+
+printk("[Time] %ld sec \n", (end_point.tv_sec - start_point.tv_sec));
+printk("[Time] %ld micro sec \n", (end_point.tv_usec - start_point.tv_usec));
+
+유저 영역에서는 do_gettimeofday()대신 gettimeofday()을 쓴다.

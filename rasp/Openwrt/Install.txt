@@ -56,3 +56,7 @@ opkg install resize2fs
 
 fdisk -l 해서 나오는 Boot Start 주소와 같게 설정해야 한다.
 
+
+#. 컴파일
+gcc -mfloat-abi=hard test.c
+
