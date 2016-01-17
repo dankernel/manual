@@ -1,0 +1,2 @@
+id : ubuntu
+pw : ubuntu
